@@ -1,0 +1,38 @@
+  body{
+    background-color: #302f2f;
+    width: 100%;
+  }
+  #txt1{
+    font-family: 'Audiowide', cursive;
+    font-size: 200%;
+    color: #e50d0d;
+    margin: 1%;
+    position: absolute;
+  }
+  #txt2{
+    font-family: 'Audiowide', cursive;
+    font-size: 80%;
+    color: #e50d0d;
+    margin: 5%;
+    position: absolute;right: 20px; top: 65%;
+  }
+  #canvas{
+    border-color: black;
+    border-style: solid;
+    border-bottom-color: red; 
+    background-color: #a39c97;
+    position: absolute; left: 30%; top: 15%;
+  }
+  .box{
+    width: 20%;
+    height: 10%;
+    position: absolute; left: 38%; top: 65%;
+  }
+  #start{
+    width: 20%;
+    position: absolute;left: 25%; top: 4%;
+  }
+  #restart{
+    width: 20%;
+    position: absolute;left: 50%; top: 4%;
+  }
