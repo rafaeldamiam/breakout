@@ -5,12 +5,14 @@
     	<title>Breakout</title>
 		<link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
 		<link href="style/style.css" rel="stylesheet">
+		<script src="script/gamelogic.js" type="text/javascript"></script>
 	</head>
 	<body>
 		<a href="index.html" id="txt1">BREAKOUT</a>
+		<canvas id="canvas" width="500" height="300"></canvas>
 		<div class="box">
-			<a id="normal" href="normal_mode.html">Modo Normal</a>
-			<a id="hard" href="hard_mode.html">Modo Dificil</a>
+			<img id="start" src="img/play.png" onmousedown="gameLogic()">
+			<img id="restart" src="img/restart.png" onmousedown="document.location.reload();">
 		</div>
 	</body>
 </html>

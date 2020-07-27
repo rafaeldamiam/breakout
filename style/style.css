@@ -2,6 +2,24 @@
     background-color: #302f2f;
     width: 100%;
   }
+
+  a:link, a:visited {
+    font-family: 'Audiowide', cursive;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  #normal{
+    background-color: #15ed3d;
+  }
+
+  #hard{
+    background-color: #e50d0d;
+  }
+  
   #txt1{
     font-family: 'Audiowide', cursive;
     font-size: 200%;
@@ -21,12 +39,13 @@
     border-style: solid;
     border-bottom-color: red; 
     background-color: #a39c97;
+    /* width: 40%; */
     position: absolute; left: 30%; top: 15%;
   }
   .box{
     width: 20%;
     height: 10%;
-    position: absolute; left: 38%; top: 65%;
+    position: absolute; left: 40%; top: 70%;
   }
   #start{
     width: 20%;

@@ -1,54 +1,50 @@
-function scriptT(){
+function gameLogic(){
 	//gerador de canvas
 	var canvas = document.getElementById("canvas");
 	//tipo de canvas
 	var ctx = canvas.getContext("2d");
 
 	//tamanho da bola
-	var b = 10;
-
-	//metricas de velocidade
-	var a = 0;
-	var multiplicador = 1;
-
-	//metricas do canvas
+	var b = 8;
+	//NAO SEI PRA Q SERVE 
 	var x = canvas.width/2.2;
 	var y = canvas.height-33;
-
-	//n sei, mas deixou a bola maluca
+	//velocidade bola
 	var dx = 2.2;
 	var dy = -2.2;
 
-	//altura do pad/base
-	var altpad = 10;
-	//largura do pad/base
-	var largpad = 75;
-
-
-	var paddleX = (canvas.width-largpad)/2.2;
+	//metricas de velocidade
+	var a = 0;
+	var multi = 1;
 
 	//pressionar direita
 	var presdir = false;
 	//pressionar esquerda
 	var presesq = false;
 
-	//contador de blocos verticais
-	var contlinbroc = 5;
-	//contador de blocos horizontais
-	var contcolbroc = 4;
+
+	//altura do pad/base
+	var altpad = 10;
+	//largura do pad/base
+	var largpad = 75;
+	//velocidade do pad/base
+	var paddleX = (canvas.width-largpad)/2.2;
 
 	//largura dos blocos
 	var largbloc = 75;
 	//altura dos blocos
 	var altbloc = 20;
-
-	// n sei
-	var padbloc = 10;
+	// tamanho entre blocos
+	var padbloc = 5;
 	//distancia do grupo de blocos da parede superior do canvas
 	var bloctop = 30;
 	//distancia do grupo de blocos da parede esquerda do canvas
-	var blocesq = 30;
-
+	var blocesq = 10;
+	//contador de blocos verticais
+	var contlinbroc = 6;
+	//contador de blocos horizontais
+	var contcolbroc = 5;
+	//armazena os blocos
 	var bricks = [];
 
 	//metricas p/ derrota ou vitoria
@@ -68,6 +64,7 @@ function scriptT(){
 	document.addEventListener("keyup", tratartecladespre, false);
 	document.addEventListener("mousemove", mexemouse, false);
 
+	//pressiona
 	function tratarteclapres(e) {
 	    if(e.keyCode == 39) {
 	        presdir = true;
@@ -75,6 +72,8 @@ function scriptT(){
 	        presesq = true;
 	    }
 	}
+
+	//despressiona
 	function tratartecladespre(e) {
 	    if(e.keyCode == 39) {
 	        presdir = false;
@@ -97,10 +96,9 @@ function scriptT(){
 	                if(x > b.x && x < b.x+largbloc && y > b.y && y < b.y+altbloc) {
 	                    dy = -dy;
 	                    b.status = 0;
-	                    score++;
-	                    if(score == contlinbroc*contcolbroc) {
-	                        alert("Parabéns! Você Venceu!!!");
-	                        document.location.reload();
+	                    score+=10;
+	                    if(score == ((contlinbroc*contcolbroc)*10)) {
+	                        vitoria();
 	                    }
 	                }
 	            }
@@ -149,23 +147,55 @@ function scriptT(){
 	function desenhascore() {
 	    ctx.font = "16px 'Audiowide', cursive";
 		ctx.fillStyle = "black";
-		
-	    ctx.fillText("Score: "+score, 8, 20);
+	    ctx.fillText("Pontuação: "+score, 8, 20);
 	}
 
 	//desenha lives
 	function desenhalive() {
 	    ctx.font = "16px 'Audiowide', cursive";
 	    ctx.fillStyle = "black";
-	    ctx.fillText("Lives: "+lives, canvas.width-75, 20);
+	    ctx.fillText("Vidas: "+lives, canvas.width-75, 20);
 	}
+
 	//multiplicador de velocidade
-	function speedUp(a){
-		if(multiplicador < 1.6){
-			multiplicador += 0.2;
+	function multiplicador(a){
+		if(multi < 1.3){
+			multi += 0.1;
 		}
-		a = a*multiplicador;
+		a = (a * multi);
 		return a;
+	}
+
+	//multiplicador de velocidade
+	function speedUp(){
+		var x_aux = multiplicador(2);
+		var y_aux = multiplicador(30);
+		var dx_aux = multiplicador(dx);
+		var dy_aux = multiplicador(dy);
+
+		x = canvas.width/x_aux;
+		y = canvas.height-y_aux;
+		dx = dx_aux;
+		dy = -dy_aux;
+		paddleX = (canvas.width-largpad)/x_aux;
+	}
+
+	//aumenta pad
+	function aumentaPad(){
+		altpad++;
+		largpad += 10;
+	}
+
+	//caso vitoria
+	function vitoria(){
+		alert("Parabéns! Você Venceu!!! \nSeu pontuação foi de: "+score+"\nRestando: "+lives+" vidas");
+		document.location.reload();
+	}
+
+	//caso derrota
+	function derrota(){
+		alert("Fim de Jogo!!\nVocê perdeu! \nSeu pontuação foi de: "+score)
+	    document.location.reload();
 	}
 
 	//limpa e redesenha
@@ -192,24 +222,15 @@ function scriptT(){
 				lives--;
 				//game over
 	            if(!lives) {
-	                alert("Fim de Jogo!!")
-	                document.location.reload();
+	                derrota();
 	            }else {
-					var x_aux = speedUp(2);
-					var y_aux = speedUp(30);
-					var dx_aux = speedUp(dx);
-					var dy_aux = speedUp(dy);
-
-	                x = canvas.width/x_aux;
-	                y = canvas.height-y_aux;
-	                dx = dx_aux;
-	                dy = -dy_aux;
-	                paddleX = (canvas.width-largpad)/x_aux;
+					speedUp();
+					aumentaPad();
 	            }
 	        }
 	    }
 		
-		//n sei ainda
+		//move pad
 	    if(presdir && paddleX < canvas.width-largpad) {
 	        paddleX += 7;
 	    }else if(presesq && paddleX > 0) {
@@ -223,3 +244,61 @@ function scriptT(){
 	}
 	desenha();
 }
+
+/* 	PARA CANVAS 1000X600 - ALTERAR CSS WIDTH PARA 40%
+
+	//gerador de canvas
+	var canvas = document.getElementById("canvas");
+	//tipo de canvas
+	var ctx = canvas.getContext("2d");
+
+	//tamanho da bola
+	var b = 12;
+
+	//metricas de velocidade
+	var a = 0;
+	var multiplicador = 1;
+
+	//metricas do canvas
+	var x = canvas.width/2.2;
+	var y = canvas.height-33;
+
+	//n sei, mas deixou a bola maluca
+	var dx = 2.2;
+	var dy = -2.2;
+
+	//altura do pad/base
+	var altpad = 10;
+	//largura do pad/base
+	var largpad = 150;
+
+
+	var paddleX = (canvas.width-largpad)/2.2;
+
+	//pressionar direita
+	var presdir = false;
+	//pressionar esquerda
+	var presesq = false;
+
+	//contador de blocos verticais
+	var contlinbroc = 12;
+	//contador de blocos horizontais
+	var contcolbroc = 10;
+
+	//largura dos blocos
+	var largbloc = 75;
+	//altura dos blocos
+	var altbloc = 20;
+
+	// distancia entre blocos
+	var padbloc = 5;
+	//distancia do grupo de blocos da parede superior do canvas
+	var bloctop = 30;
+	//distancia do grupo de blocos da parede esquerda do canvas
+	var blocesq = 20;
+
+	var bricks = [];
+
+	//metricas p/ derrota ou vitoria
+	var score = 0;
+	var lives = 5; */
